@@ -208,7 +208,10 @@ tofu destroy
 The `.terraform.lock.hcl` file locks provider versions and stores checksums, ensuring consistent and reproducible Terraform deployments.
 
 ![Terraform Lock File](images/11-bonus-opentofu-file.png)
+<<<<<<< HEAD
 
+=======
+>>>>>>> e97772b (added day01 documentation)
 ---
 
 
