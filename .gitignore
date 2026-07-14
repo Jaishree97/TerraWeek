@@ -14,6 +14,7 @@ crash.*.log
 *.tfvars
 *.tfvars.json
 !*.tfvars.example
+!terraform.tfvars
 
 # CLI config & plan outputs
 .terraformrc
