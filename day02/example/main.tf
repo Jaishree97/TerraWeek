@@ -2,6 +2,8 @@
 locals {
   name_prefix = "tws-${var.environment}"
 
+  instance_size = var.environment == "prod" ? "large" : "small"
+
   common_labels = merge(
     {
       project     = "terraweek"
@@ -10,6 +12,8 @@ locals {
     },
     var.extra_labels,
   )
+
+  uppercase_developers = [for dev in var.developer : upper(dev)]
 }
 
 # Pull the Nginx image (tag driven by a variable).

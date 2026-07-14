@@ -12,3 +12,18 @@ output "image" {
   description = "The image the container is running."
   value       = docker_image.nginx.name
 }
+
+output "uppercase_developers" {
+  description = "Developer names in uppercase."
+  value       = local.uppercase_developers
+}
+
+output "instance_size" {
+  description = "Computed instance size based on environment."
+  value       = local.instance_size
+}
+
+output "common_labels" {
+  description = "Merged labels applied to the container."
+  value       = local.common_labels
+}

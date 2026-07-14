@@ -41,3 +41,53 @@ variable "extra_labels" {
     team = "trainwithshubham"
   }
 }
+
+# Boolean Variables
+variable "enable_logs" {
+  description = "Enable container logging."
+  type        = bool
+  default     = true
+}
+# List Variables
+variable "developer" {
+  description = "List of developers working on this project."
+  type        = list(string)
+  default     = ["jaishree", "Rahul", "Priya"]
+}
+
+# Set Variables
+variable "allowed_ports" {
+  description = "Set of allowed ports for the container."
+  type        = set(number)
+  default     = [8080, 8081, 8082]
+}
+
+# Object Variable
+variable "server" {
+  description = "Server configuration."
+  type = object({
+    cpu      = number
+    memory   = number
+    hostname = optional(string)
+  })
+
+  default = {
+    cpu    = 2
+    memory = 1024
+  }
+}
+
+# tuple Variable
+variable "server_info" {
+  description = "Server information."
+  type        = tuple([string, number, bool])
+  default     = ["Ubuntu", 24, true]
+}
+
+# sensitive Variable
+variable "docker_token" {
+  description = "Docker Hub token for private image access."
+  type        = string
+  sensitive   = true
+  default     = "Dummy-token"
+}
