@@ -10,7 +10,7 @@ This hands-on project provisions AWS infrastructure using Terraform and demonstr
 
 ---
 
-## 📚 Table of Contents
+## Table of Contents
 
 - [Learning Goals](#-learning-goals)
 - [Prerequisites](#-prerequisites)
@@ -31,7 +31,7 @@ This hands-on project provisions AWS infrastructure using Terraform and demonstr
 
 ---
 
-## 🎯 Learning Goals
+## Learning Goals
 
 - Configure Terraform providers and version constraints.
 - Understand resources and data sources.
@@ -40,7 +40,7 @@ This hands-on project provisions AWS infrastructure using Terraform and demonstr
 
 ---
 
-## ✅ Prerequisites
+## Prerequisites
 
 Before running this project, make sure you have:
 
@@ -165,13 +165,18 @@ Terraform uses the credentials stored in `~/.aws/credentials`, so never hard-cod
 
 ```text
 day03/
+│
 ├── README.md
 ├── day03.md
+│
 ├── example/
+│   ├── .terraform.lock.hcl
 │   ├── terraform.tf
 │   ├── main.tf
 │   ├── variables.tf
-│   └── outputs.tf
+│   ├── outputs.tf
+│   └── tfplan
+│
 └── images/
 ```
 ---
