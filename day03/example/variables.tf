@@ -17,13 +17,31 @@ variable "public_subnet_cidr" {
 }
 
 variable "instance_type" {
-  description = "EC2 instance type. t2.micro is AWS Free Tier in most regions (incl. us-east-1)."
+  description = "EC2 instance type."
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 variable "name_prefix" {
   description = "Prefix applied to resource names."
   type        = string
   default     = "terraweek"
+}
+
+variable "instance_count" {
+  description = "Number of EC2 instances to create."
+  type        = number
+  default     = 2
+}
+
+variable "allowed_ports" {
+  description = "Allowed inbound ports."
+  type        = list(number)
+  default     = [22, 80, 443]
+}
+
+variable "install_nginx" {
+  description = "Install Nginx during EC2 boot."
+  type        = bool
+  default     = true
 }

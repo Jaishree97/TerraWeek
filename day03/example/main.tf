@@ -21,6 +21,9 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+# Get the current AWS region
+data "aws_region" "current" {}
+
 # --- Network ---
 
 resource "aws_vpc" "main" {
@@ -77,12 +80,15 @@ resource "aws_security_group" "web" {
   description = "Allow HTTP inbound and all outbound"
   vpc_id      = aws_vpc.main.id
 
-  ingress {
-    description = "HTTP from anywhere"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  dynamic "ingress" {
+    for_each = toset(var.allowed_ports)
+    content {
+      description = "Allow TCP traffic"
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
   }
 
   egress {
@@ -104,6 +110,8 @@ resource "aws_security_group" "web" {
 # it works even when the instance is replaced. (More on provisioners on Day 6.)
 
 resource "aws_instance" "web" {
+  count                  = var.instance_count
+  depends_on             = [aws_internet_gateway.igw]
   ami                    = data.aws_ami.al2023.id
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.public.id
@@ -112,15 +120,27 @@ resource "aws_instance" "web" {
   user_data = <<-EOF
     #!/bin/bash
     dnf install -y nginx
-    echo "<h1>Hello from TerraWeek 2026 🚀</h1>" > /usr/share/nginx/html/index.html
+    echo "<h1>Hello from TerraWeek -day-3 2026  🚀 </h1>" > /usr/share/nginx/html/index.html
     systemctl enable --now nginx
   EOF
 
   lifecycle {
     create_before_destroy = true
+    ignore_changes = [
+      tags
+    ]
   }
 
   tags = {
-    Name = "${var.name_prefix}-web"
+    Name = "${var.name_prefix}-day3-web-${count.index + 1}"
+  }
+}
+
+resource "aws_eip" "web" {
+  domain     = "vpc"
+  instance   = aws_instance.web[0].id
+  depends_on = [aws_internet_gateway.igw]
+  tags = {
+    Name = "${var.name_prefix}-eip"
   }
 }
