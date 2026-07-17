@@ -412,20 +412,16 @@ Used the AWS VPC module from the Terraform Registry to provision networking reso
 
 ### Architecture
 
-```text
                   Root Module
-                       |
-                       |
-             Terraform Registry Module
-                       |
-                       |
-              terraform-aws-vpc/aws
-                       |
+                        |
+                        v
+          terraform-aws-modules/vpc/aws
+                        |
         -----------------------------------------
         |                  |                    |
        VPC            Public Subnets        Route Tables
                                                    |
-                                             Internet Access
+                                             Internet Gateway
 ```
 
 ### Terraform Commands
@@ -535,8 +531,7 @@ source = "git::https://github.com/org/repo.git?ref=<commit-sha>"
 
 ### Published Module
 
-- `terraform-aws-ec2-module`
-  - https://github.com/Jaishree97/terraform-aws-ec2-module
+- [terraform-aws-ec2-module](https://github.com/Jaishree97/terraform-aws-ec2-module)
 
 ---
 
