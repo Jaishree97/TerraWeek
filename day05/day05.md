@@ -22,7 +22,7 @@ Terraform modules help us write infrastructure once and reuse it across multiple
 - [Task 4 - Consume a Registry Module + Version Locking](#task-4---consume-a-registry-module--version-locking)
 - [Task 5 - Publish Module to GitHub (Bonus)](#task-5---publish-module-to-github-bonus)
 - [Task 6 - Module Composition (Bonus)](#task-6---module-composition-bonus)
-- [Terraform Version Locking](#terraform-version-locking)
+- [Module Version Locking](#module-version-locking)
 - [Git Module Version Pinning](#git-module-version-pinning)
 - [Key Learnings](#key-learnings)
 - [Cleanup](#cleanup)
@@ -112,11 +112,14 @@ terraform destroy
 - Free Tier EC2 Instance Type: `t3.micro`
 - Terraform Version: `v1.15.8`
 - AWS Provider Version: `~> 6.0`
-- Terraform Modules Used:
-  - Local Module
-  - Terraform Registry Module
-  - GitHub Module (`git::` + `?ref=v1.0.0`)
-  - Module Composition Demo
+
+Terraform Module Sources:
+- Local Module
+- Registry Module
+- GitHub Module
+
+Module Versioning:
+- Git Tags (v1.0.0)
 - Module versioning implemented using Git tags (`?ref=v1.0.0`)
 - Infrastructure provisioned entirely using Terraform.
 - All AWS resources were destroyed after completing the hands-on labs.
@@ -164,21 +167,11 @@ terraform destroy
 
 ```text
 day05/
-
-├── example/
-│   └── Local Terraform Module Demo
-│
-├── registry-demo/
-│   └── Terraform Registry Module Demo
-│
-├── github-module-demo/
-│   └── GitHub Module Demo (git:: + ?ref)
-│
-├── module-composition-demo/
-│   └── Module Composition Demo
-│
+├── example/                  # Local module
+├── registry-demo/            # Registry module
+├── github-module-demo/       # GitHub module
+├── module-composition-demo/  # Module composition
 ├── images/
-│
 ├── day05.md
 └── README.md
 ```
@@ -272,7 +265,7 @@ Built and consumed a reusable EC2 Terraform module by passing shared infrastruct
 
 Initialized Terraform and downloaded the required providers and local modules.
 
-![Terraform Init](./images/01-task-2-init.png)
+![Terraform Init](./images/01-task-2.1-init.png)
 
 ---
 
@@ -280,31 +273,36 @@ Initialized Terraform and downloaded the required providers and local modules.
 
 Validated the configuration and reviewed the execution plan before provisioning resources.
 
-![Terraform Plan](./images/02-task-2-plan.png)
+![Terraform Plan](./images/02-task-2.2-fmt-validate-plan.png)
 
 ---
 
-#### 3. Terraform Apply
+#### 3. Terraform Apply & Output
 
 Provisioned the EC2 instance using the reusable local Terraform module.
 
-![Terraform Apply](./images/03-task-2-apply.png)
+![Terraform Apply](./images/03-task-2.3-apply.png)
 
 ---
 
-#### 4. Terraform Output
-
-Verified the module outputs generated after a successful deployment.
-
-![Terraform Output](./images/04-task-2-output.png)
-
----
-
-#### 5. AWS Console Verification
+#### 4. AWS Console Verification
 
 Verified that the EC2 instance was successfully created in the AWS Management Console.
 
-![AWS Console - EC2 Instance](./images/05-task-2-aws-console.png)
+![AWS Console - EC2 Instance](./images/04-task-2-aws-console-ec2-instance-1.png)
+
+---
+
+#### 5. Variable Validation Testing
+
+Intentionally provided invalid inputs to verify Terraform's variable validation rules.
+
+![Terraform Breaking code](./images/05-task-2.4-breaking-code.png)
+
+![Terraform Breaking Validation](./images/06-task-2.5-breaking-validation.png)
+
+---
+
 
 ### Hands-on Completed
 
@@ -412,21 +410,18 @@ Used the AWS VPC module from the Terraform Registry to provision networking reso
 
 ### Architecture
 
-                  Root Module
-                        |
-                        v
-          terraform-aws-modules/vpc/aws
-                        |
-        -----------------------------------------
-        |                  |                    |
-       VPC            Public Subnets        Route Tables
-                                                   |
-                                             Internet Gateway
+```text
+                 Root Module
+                       |
+                       v
+         terraform-aws-modules/vpc/aws
+                       |
+       -----------------------------------------
+       |                  |                    |
+      VPC            Public Subnets        Route Tables
+                                                  |
+                                            Internet Gateway
 ```
-
-### Terraform Commands
-
-`cd registry-demo` → `terraform fmt` → `terraform init` → `terraform validate` → `terraform plan` → `terraform apply` → `terraform output` → `terraform destroy`
 
 ### Implementation Walkthrough
 
