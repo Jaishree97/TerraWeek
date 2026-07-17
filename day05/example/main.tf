@@ -41,7 +41,7 @@ locals {
 module "web_server" {
   source                 = "./modules/ec2_instance"
   name                   = "web"
-  instance_type          = "t2.micro"
+  instance_type          = "t3.micro"
   environment            = "dev"
   ami                    = data.aws_ami.al2023.id
   subnet_id              = local.subnet_id
@@ -58,7 +58,7 @@ module "servers" {
   for_each = toset(["app", "worker", "cache"])
 
   name                   = each.key
-  instance_type          = "t2.micro"
+  instance_type          = "t3.micro"
   environment            = "dev"
   ami                    = data.aws_ami.al2023.id
   subnet_id              = local.subnet_id
